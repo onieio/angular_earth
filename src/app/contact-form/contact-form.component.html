@@ -1,0 +1,83 @@
+<!-- 
+cd /home/opt-lt-017/Desktop/Dev/angular/euler1.0/earth 
+sudo npm install bootstrap --save
+
+ng new earth
+ng serve
+ng g c contact-form
+ng g c signup-form
+
+Note:
+Short Cuts
+ctl+` -----------------> Command line opener
+alt   -----------------> Shifting a lines
+
+-->
+<!--  Event Bindig = Binding an method witch is there in the component to output i.e ngSubmit -->
+<form #f="ngForm" (ngSubmit)="submit(f)"> 
+ 
+  <!-- Firstname with basic validations ie., Minlength Maxlength and Pattren to be matched-->
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input 
+      required 
+      minlength="4" 
+      maxlength="10" 
+      pattern="banana" 
+      ngModel 
+      name="firstName"  
+      #firstName="ngModel" 
+      (change)="log(firstName)" 
+      id="firstName" 
+      type="text" 
+      class="form-control">
+    
+    <div 
+      class="alert alert-danger" 
+      *ngIf="firstName.touched && !firstName.valid">
+      <div *ngIf="firstName.errors.required"> First name required</div>
+      <div *ngIf="firstName.errors.minlength">Should contain atleast {{firstName.errors.minlength.requiredLength}} charcters</div>
+      <div *ngIf="firstName.errors.pattern">First name dosn't match pattern</div>
+    </div>
+  </div>
+  
+  <!-- Textarea -->
+  <div class="form-group">
+    <label for="comment">Comment</label>
+    <textarea ngModel name="comment"cols="30" rows="10" class="form-control"></textarea>
+  </div>
+  
+  <!-- CheckBox Example-->
+  <div class="checkbox">
+    <label>CheckBox
+      <input type="checkbox" ngModel name="isSubscribed">Subscibe to mailing list
+    </label>
+  </div>
+  
+  <!-- Dropdown example -->
+  <div class="form-group">
+    <label for="contactMethod">DropDown</label>
+    <select ngModel name="contactMethod" id="contactMethod" class="form-control">
+      <option value=""></option>
+      <option *ngFor="let method of contactMethods" [value]="method.id">{{ method.name }}</option>
+    </select>
+  </div>
+  
+  <!-- Radio buttons example-->  
+  <div *ngFor="let method of contactMethods" class="radio">Raido Buttons
+    <label>
+      <input ngModel [value]="method.id" type="radio" name="contactMethod">
+      {{ method.name }}
+    </label>
+  </div>
+
+  <!-- For debuging purpuse -->
+  <p>
+    {{ f.value | json }}
+  </p>
+  
+  <!-- Button By default we disabled -->
+  <button class="btn btn-primary" [disabled]="!f.valid">Submit</button>
+
+</form>
+  
